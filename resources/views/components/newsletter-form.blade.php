@@ -43,31 +43,49 @@
 		
 		{{-- Editor --}}
 		<form
-			x-data="{}"
-			@submit.prevent="alert('coming soon…')"
+			action="{{ route('newsletter-subscriber.store') }}"
+			method="post"
 			class="flex border-t border-slate-200 dark:border-slate-700"
 		>
-			<div class="p-4 space-y-4 font-mono bg-white rounded-bl-lg dark:bg-slate-700 border-r border-slate-200 dark:border-slate-700 text-slate-200">
+			@csrf
+			<div class="hidden md:block p-4 space-y-4 font-mono bg-white rounded-bl-lg dark:bg-slate-700 border-r border-slate-200 dark:border-slate-700 text-slate-200">
 				@for($i = 1; $i < 9; $i++)
 					<div>{{ $i }}</div>
 				@endfor
 			</div>
 			<div class="flex-1 bg-white rounded-br-lg p-4 space-y-4 font-mono dark:bg-slate-800">
-				<div class="text-slate-500">// curious about our next upcoming meetup?</div>
-				<div class="text-slate-500">// sign up for updates:</div>
-				<div class="text-slate-500">&nbsp;</div>
-				
-				<x-code-input name="name" label="my_name" />
-				<x-code-input name="email" label="my_email" />
-				
-				<div class="text-slate-500">&nbsp;</div>
-				<div class="text-slate-500 group flex items-center">
-					<button type="submit" class="text-amber-500 font-semibold hover:text-red-800 dark:hover:text-white hover:underline">
-						submit()
-					</button>
-					<span class="text-slate-500">;</span>
-				</div>
-				
+				@if(session()->has('message'))
+					<div class="flex font-semibold">
+						<span class="text-amber-500">response(</span>
+						<span class="text-green-800 dark:text-slate-400">&quot;</span>
+						<span class="text-purple-600 dark:text-purple-300">You're on the list!</span>
+						<span class="text-green-800 dark:text-slate-400">&quot;</span>
+						<span class="text-amber-500">)</span>
+						<span class="text-slate-400 hidden md:block">;</span>
+					</div>
+				@else
+					<div class="text-slate-500">&nbsp;</div>
+					<div class="text-slate-500">
+						<span class="hidden md:inline">// </span>
+						<span class="md:hidden">/* </span>
+						<span>curious about our next upcoming meetup? </span>
+						<span class="md:hidden">Sign up for updates:</span>
+						<span class="md:hidden"> */</span>
+					</div>
+					<div class="text-slate-500 hidden md:block">// sign up for updates:</div>
+					<div class="text-slate-500 hidden md:block">&nbsp;</div>
+					
+					<x-code-input name="full_name" label="my_name" />
+					<x-code-input name="email" label="my_email" />
+					
+					<div class="text-slate-500">&nbsp;</div>
+					<div class="text-slate-500 group flex items-center">
+						<button type="submit" class="text-amber-500 font-semibold hover:text-red-800 dark:hover:text-white hover:underline">
+							submit()
+						</button>
+						<span class="text-slate-500">;</span>
+					</div>
+				@endif
 			</div>
 		</form>
 	</div>
