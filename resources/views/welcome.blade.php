@@ -13,6 +13,20 @@
 	</style>
 	@vite('resources/css/app.css')
 	@vite('resources/js/app.js')
+	
+	<meta name="description" content="A Philly-area PHP meetup for web artisans who want to learn and connect." />
+	<meta property="og:url" content="{{ url()->current() }}" />
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="PHP × Philly" />
+	<meta property="og:description" content="A Philly-area PHP meetup for web artisans who want to learn and connect." />
+	<meta property="og:image" content="{{ asset('og.png') }}" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta property="twitter:domain" content="{{ parse_url(url()->current(), PHP_URL_HOST) }}" />
+	<meta property="twitter:url" content="{{ url()->current() }}" />
+	<meta name="twitter:title" content="PHP × Philly" />
+	<meta name="twitter:description" content="A Philly-area PHP meetup for web artisans who want to learn and connect." />
+	<meta name="twitter:image" content="{{ asset('og.png') }}" />
+	<meta name="twitter:creator" content="@inxilpro" />
 </head>
 <body class="font-sans antialiased dark:bg-black dark:text-white/50">
 <div class="p-2">
