@@ -65,6 +65,10 @@
 			Questions?
 			<a class="text-slate-600 font-semibold hover:underline" href="https://twitter.com/inxilpro" target="_blank">Ask Chris</a>.
 		</div>
+		<div>
+			In
+			<a class="text-slate-600 font-semibold hover:underline" href="https://phpxnyc.com/" target="_blank">NYC</a>?
+		</div>
 	</div>
 
 </div>
