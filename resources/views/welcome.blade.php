@@ -27,6 +27,8 @@
 	<meta name="twitter:description" content="A Philly-area PHP meetup for web artisans who want to learn and connect." />
 	<meta name="twitter:image" content="{{ asset('og.png') }}" />
 	<meta name="twitter:creator" content="@inxilpro" />
+	
+	<script defer data-domain="phpxphilly.com" src="https://plausible.io/js/script.js"></script>
 </head>
 <body class="font-sans antialiased dark:bg-black dark:text-white/50">
 <div class="p-2">
