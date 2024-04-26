@@ -48,7 +48,7 @@
 			class="flex border-t border-slate-200 dark:border-slate-700"
 		>
 			@csrf
-			<div class="hidden md:block p-4 space-y-4 font-mono bg-white rounded-bl-lg dark:bg-slate-700 border-r border-slate-200 dark:border-slate-700 text-slate-200">
+			<div class="hidden sm:block p-4 space-y-4 font-mono bg-white rounded-bl-lg dark:bg-slate-700 border-r border-slate-200 dark:border-slate-700 text-slate-200">
 				@for($i = 1; $i < 9; $i++)
 					<div>{{ $i }}</div>
 				@endfor
@@ -61,19 +61,18 @@
 						<span class="text-purple-600 dark:text-purple-300">You're on the list!</span>
 						<span class="text-green-800 dark:text-slate-400">&quot;</span>
 						<span class="text-amber-500">)</span>
-						<span class="text-slate-400 hidden md:block">;</span>
+						<span class="text-slate-400 hidden sm:block">;</span>
 					</div>
 				@else
-					<div class="text-slate-500">&nbsp;</div>
 					<div class="text-slate-500">
-						<span class="hidden md:inline">// </span>
-						<span class="md:hidden">/* </span>
+						<span class="hidden sm:inline">// </span>
+						<span class="sm:hidden">/* </span>
 						<span>curious about our next upcoming meetup? </span>
-						<span class="md:hidden">Sign up for updates:</span>
-						<span class="md:hidden"> */</span>
+						<span class="sm:hidden">Sign up for updates:</span>
+						<span class="sm:hidden"> */</span>
 					</div>
-					<div class="text-slate-500 hidden md:block">// sign up for updates:</div>
-					<div class="text-slate-500 hidden md:block">&nbsp;</div>
+					<div class="text-slate-500 hidden sm:block">// sign up for updates:</div>
+					<div class="text-slate-500 hidden sm:block">&nbsp;</div>
 					
 					<x-code-input name="full_name" label="my_name" />
 					<x-code-input name="email" label="my_email" />
