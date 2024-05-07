@@ -1,4 +1,4 @@
-<x-layout title="RSVP">
+<x-layout title="Get Updates">
 	
 	<h1 class="font-mono font-semibold text-white text-2xl sm:text-4xl md:text-5xl lg:text-6xl">
 		PHP×Phill<span x-data x-typed="['y Newsl', 'y Updates']">y</span>
