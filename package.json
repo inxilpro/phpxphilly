@@ -13,6 +13,7 @@
         "vite": "^5.0"
     },
     "dependencies": {
-        "alpinejs": "^3.13.10"
+        "alpinejs": "^3.13.10",
+        "typed.js": "^2.1.0"
     }
 }
