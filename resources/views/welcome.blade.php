@@ -7,10 +7,12 @@
 			A bi-monthly<span x-data x-typed.cursorless.delay.3000="['(ish)']"></span> meetup for PHP artisans.
 		</h2>
 		<div class="flex gap-4 items-center">
+			{{--
 			<a href="/rsvp" class="bg-white px-4 py-2.5 text-black font-semibold text-lg transform opacity-90 hover:opacity-100 hover:-rotate-2">
 				RSVP<span class="not-sr-only">_</span>
 			</a>
 			<span class="w-2"></span>
+			--}}
 			<a href="{{ route('newsletter-subscriber.create') }}" class="group relative">
 				<div class="absolute bg-white whitespace-nowrap px-2 py-1 text-black font-mono font-bold -top-full -left-2 transform transition hidden opacity-0 group-hover:-rotate-3 group-hover:block group-hover:opacity-100">
 					Get Updates
@@ -47,17 +49,18 @@
 	</div>
 	
 	<x-slot:footer>
-		<a href="/rsvp" class="group flex items-center gap-2 p-4 text-center justify-center xl:text-xl">
-			<svg class="w-6 h-6 transform group-hover:-rotate-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+		{{-- <a href="/rsvp" class="group flex items-center gap-2 p-4 text-center justify-center xl:text-xl"> --}}
+		<div class="flex items-center gap-3 p-4 text-center justify-center xl:text-xl">
+			<svg class="w-12 h-12 lg:w-6 lg:h-6 transform group-hover:-rotate-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
 				<path
 					stroke-linecap="round"
 					stroke-linejoin="round"
 					d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"
 				/>
 			</svg>
-			<span class="group-hover:underline">
-				Next meetup: June 13th @ 6:30pm
+			<span class="text-left lg:text-center group-hover:underline">
+				Save the date! Our next meetup will be on June 13th @ 6:30pm (details coming soon).
 			</span>
-		</a>
+		</div>
 	</x-slot:footer>
 </x-layout>
