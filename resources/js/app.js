@@ -26,6 +26,7 @@ Alpine.directive('typed', (el, { expression, modifiers }, { evaluateLater, effec
 			startDelay: modifierValue('delay', 750),
 			typeSpeed: modifierValue('speed',150),
 			showCursor: ! modifiers.includes('cursorless'),
+			loop: modifiers.includes('loop'),
 			cursorChar: '_',
 		});
 		cleanup(() => instance.destroy());
