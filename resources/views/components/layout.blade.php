@@ -39,7 +39,7 @@
 	</div>
 	
 	{{-- Content --}}
-	<div class="w-full max-w-4xl mx-auto flex flex-col items-start justify-center px-4 gap-4 py-24">
+	<div class="w-full max-w-4xl mx-auto flex flex-col items-start justify-center px-4 py-8">
 		{{ $slot }}
 	</div>
 	
