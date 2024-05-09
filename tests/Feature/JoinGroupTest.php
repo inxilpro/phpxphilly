@@ -12,39 +12,68 @@ class JoinGroupTest extends TestCase
 	
 	public function test_you_can_join_a_group_and_subscribe_to_updates(): void
 	{
-		$group = Group::findByDomain('phpxphilly.com');
+		$this->withoutExceptionHandling();
 		
-		// $this->get('https://phpxphilly.com/join')
-		// 	->assertOk()
-		// 	->assertSee($group->name);
+		$philly = Group::findByDomain('phpxphilly.com');
+		$nyc = Group::findByDomain('phpxnyc.com');
 		
 		$payload = [
-			'group' => $group->getKey(),
 			'name' => 'Chris Morrell',
 			'email' => 'chris@phpxphilly.com',
 			'subscribe' => '1',
 		];
 		
+		// Join Philly
+		
 		$this->post('https://phpxphilly.com/join', $payload)
 			->assertSessionHasNoErrors()
 			->assertRedirect();
 		
-		$user = $group->users()->sole();
+		$philly_user = $philly->users()->sole();
 		
-		$this->assertEquals('Chris Morrell', $user->name);
-		$this->assertEquals('chris@phpxphilly.com', $user->email);
-		$this->assertTrue($user->group_membership->is_subscribed);
-		$this->assertTrue($user->current_group()->is($group));
+		$this->assertEquals('Chris Morrell', $philly_user->name);
+		$this->assertEquals('chris@phpxphilly.com', $philly_user->email);
+		$this->assertTrue($philly_user->group_membership->is_subscribed);
+		$this->assertTrue($philly_user->current_group()->is($philly));
 		
-		$this->post('https://phpxphilly.com/join', array_merge($payload, ['subscribe' => '0']) )
+		// Unsubscribe from Philly
+		
+		$this->post('https://phpxphilly.com/join', array_merge($payload, ['subscribe' => '0']))
 			->assertSessionHasNoErrors()
 			->assertRedirect();
 		
-		$user = $group->users()->sole();
+		$philly_user = $philly->users()->sole();
 		
-		$this->assertEquals('Chris Morrell', $user->name);
-		$this->assertEquals('chris@phpxphilly.com', $user->email);
-		$this->assertFalse($user->group_membership->is_subscribed);
-		$this->assertTrue($user->current_group()->is($group));
+		$this->assertEquals('Chris Morrell', $philly_user->name);
+		$this->assertEquals('chris@phpxphilly.com', $philly_user->email);
+		$this->assertFalse($philly_user->group_membership->is_subscribed);
+		$this->assertTrue($philly_user->current_group()->is($philly));
+		
+		// Join NYC
+		
+		$this->post('https://phpxnyc.com/join', $payload)
+			->assertSessionHasNoErrors()
+			->assertRedirect();
+		
+		$nyc_user = $nyc->users()->sole();
+		
+		$this->assertTrue($nyc_user->is($philly_user));
+		$this->assertEquals('Chris Morrell', $nyc_user->name);
+		$this->assertEquals('chris@phpxphilly.com', $nyc_user->email);
+		$this->assertTrue($nyc_user->group_membership->is_subscribed);
+		$this->assertTrue($nyc_user->current_group()->is($nyc));
+		
+		// Unsubscribe from NYC
+		
+		$this->post('https://phpxnyc.com/join', array_merge($payload, ['subscribe' => '0']))
+			->assertSessionHasNoErrors()
+			->assertRedirect();
+		
+		$nyc_user = $nyc->users()->sole();
+		
+		$this->assertEquals('Chris Morrell', $nyc_user->name);
+		$this->assertEquals('chris@phpxphilly.com', $nyc_user->email);
+		$this->assertFalse($nyc_user->group_membership->is_subscribed);
+		$this->assertTrue($nyc_user->current_group()->is($nyc));
 	}
 }

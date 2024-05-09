@@ -38,7 +38,7 @@ class User extends Authenticatable
 	{
 		return $this->belongsToMany(Group::class, 'group_memberships')
 			->as('group_membership')
-			->withPivot('is_subscribed')
+			->withPivot('id', 'is_subscribed')
 			->withTimestamps()
 			->using(GroupMembership::class);
 	}

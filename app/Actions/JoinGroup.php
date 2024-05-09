@@ -19,7 +19,7 @@ class JoinGroup
 	
 	public static function routes(Router $router): void
 	{
-		$router->post('join', static::class);
+		$router->post('join', static::class)->middleware('web');
 	}
 	
 	public function handle(Group $group, string $name, string $email, bool $subscribe = false): User
@@ -42,17 +42,14 @@ class JoinGroup
 	public function rules(): array
 	{
 		return [
-			'group' => ['required', 'integer', 'exists:groups,id'],
 			'name' => ['required', 'string', 'max:255'],
 			'email' => ['required', 'string', 'email', 'max:255'],
 			'subscribe' => ['nullable', 'boolean'],
 		];
 	}
 	
-	public function asController(ActionRequest $request)
+	public function asController(ActionRequest $request, Group $group)
 	{
-		$group = Group::findOrFail($request->validated('group'));
-		
 		$this->handle(
 			group: $group,
 			name: $request->validated('name'),
