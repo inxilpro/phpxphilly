@@ -9,6 +9,7 @@
         "glhd/bits": "^0.4.1",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
+        "lorisleiva/laravel-actions": "^2.8",
         "monicahq/laravel-cloudflare": "^3.7"
     },
     "require-dev": {

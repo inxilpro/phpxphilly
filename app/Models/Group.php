@@ -31,8 +31,9 @@ class Group extends Model
 	{
 		return $this->belongsToMany(User::class, 'group_memberships')
 			->as('group_membership')
-			->withPivot(['is_subscribed'])
+			->withPivot('is_subscribed')
 			->withTimestamps()
 			->using(GroupMembership::class);
 	}
 }
+

@@ -11,9 +11,10 @@ return new class extends Migration {
 			$table->id();
 			$table->foreignId('group_id')->constrained('groups');
 			$table->foreignId('user_id')->constrained('users');
-			$table->boolean('is_subscribed')->default('false');
+			$table->boolean('is_subscribed')->default(false);
 			$table->timestamps();
-			$table->softDeletes();
+			
+			$table->unique(['user_id', 'group_id']);
 		});
 		
 		Schema::table('users', function(Blueprint $table) {

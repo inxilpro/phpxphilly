@@ -12,22 +12,22 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory;
+	use HasFactory;
 	use Notifiable;
 	use HasSnowflakes;
 	
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+	protected $hidden = [
+		'password',
+		'remember_token',
+	];
 	
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+	protected function casts(): array
+	{
+		return [
+			'email_verified_at' => 'datetime',
+			'password' => 'hashed',
+		];
+	}
 	
 	public function current_group(): BelongsTo
 	{
@@ -36,7 +36,11 @@ class User extends Authenticatable
 	
 	public function groups(): BelongsToMany
 	{
-		return $this->belongsToMany(Group::class, 'group_memberships');
+		return $this->belongsToMany(Group::class, 'group_memberships')
+			->as('group_membership')
+			->withPivot('is_subscribed')
+			->withTimestamps()
+			->using(GroupMembership::class);
 	}
 	
 	public function meetups(): BelongsToMany

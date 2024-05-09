@@ -8,11 +8,10 @@ return new class extends Migration {
 	public function up(): void
 	{
 		Schema::create('rsvps', function(Blueprint $table) {
-			$table->snowflakeId();
+			$table->id();
 			$table->foreignId('meetup_id')->constrained('meetups');
 			$table->foreignId('user_id')->constrained('users');
 			$table->timestamps();
-			$table->softDeletes();
 		});
 	}
 	

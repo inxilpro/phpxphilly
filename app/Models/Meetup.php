@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Meetup extends Model
 {
@@ -15,8 +17,13 @@ class Meetup extends Model
 		'ends_at' => 'datetime',
 	];
 	
-	public function users(): BelongsToMany
+	public function rsvps(): HasMany
 	{
-		return $this->belongsToMany(User::class, 'rsvps');
+		return $this->hasMany(Rsvp::class);
+	}
+	
+	public function users(): HasManyThrough
+	{
+		return $this->hasManyThrough(User::class, Rsvp::class);
 	}
 }
