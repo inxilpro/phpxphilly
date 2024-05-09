@@ -33,24 +33,21 @@ class RsvpToMeetup
 		return [
 			'name' => ['required', 'string', 'max:255'],
 			'email' => ['required', 'string', 'email', 'max:255'],
+			'subscribe' => ['nullable', 'boolean'],
 			// 'interests' => ['array'],
 		];
 	}
 	
-	public function asController(ActionRequest $request, Group $group)
+	public function asController(ActionRequest $request, Meetup $meetup)
 	{
-		// $this->handle(
-		// 	group: $group,
-		// 	name: $request->validated('name'),
-		// 	email: $request->validated('email'),
-		// 	subscribe: $request->boolean('subscribe'),
-		// );
-		//
-		// $message = $request->boolean('subscribe')
-		// 	? "You are now subscribed to updates from {$group->name}."
-		// 	: "You are now unsubscribed from {$group->name} updates";
-		//
-		// Session::flash($message);
+		$user = JoinGroup::run(
+			group: $meetup->group,
+			name: $request->validated('name'),
+			email: $request->validated('email'),
+			subscribe: $request->boolean('subscribe'),
+		);
+		
+		$this->handle($meetup, $user);
 		
 		return redirect()->back();
 	}

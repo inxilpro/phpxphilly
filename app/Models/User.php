@@ -45,6 +45,9 @@ class User extends Authenticatable
 	
 	public function meetups(): BelongsToMany
 	{
-		return $this->belongsToMany(Meetup::class, 'rsvps');
+		return $this->belongsToMany(Meetup::class, 'rsvps')
+			->as('meetups')
+			->withTimestamps()
+			->using(Rsvp::class);
 	}
 }

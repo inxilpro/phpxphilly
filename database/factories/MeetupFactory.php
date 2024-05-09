@@ -17,7 +17,7 @@ class MeetupFactory extends Factory
 		return [
 			'group_id' => Group::factory(),
 			'location' => 'Meetup '.$suffix++,
-			'description' => 'This is a test meetup. Read all about it: '.$this->faker->words(50),
+			'description' => 'This is a test meetup. Read all about it: '.$this->faker->words(50, true),
 			'capacity' => random_int(20, 50),
 			'starts_at' => $starts_at = now()->addDays(random_int(1, 90))->hour(18)->minute(30),
 			'ends_at' => $starts_at->clone()->hour(21)->minute(0),

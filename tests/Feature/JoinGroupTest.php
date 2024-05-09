@@ -12,8 +12,6 @@ class JoinGroupTest extends TestCase
 	
 	public function test_you_can_join_a_group_and_subscribe_to_updates(): void
 	{
-		$this->withoutExceptionHandling();
-		
 		$philly = Group::findByDomain('phpxphilly.com');
 		$nyc = Group::findByDomain('phpxnyc.com');
 		
