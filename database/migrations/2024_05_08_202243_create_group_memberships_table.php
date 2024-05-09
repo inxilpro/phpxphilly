@@ -8,7 +8,7 @@ return new class extends Migration {
 	public function up(): void
 	{
 		Schema::create('group_memberships', function(Blueprint $table) {
-			$table->id();
+			$table->snowflakeId();
 			$table->foreignId('group_id')->constrained('groups');
 			$table->foreignId('user_id')->constrained('users');
 			$table->boolean('is_subscribed')->default(false);

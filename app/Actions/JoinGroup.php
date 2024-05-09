@@ -68,7 +68,7 @@ class JoinGroup
 	
 	public function getCommandSignature(): string
 	{
-		return 'join:group {group} {name} {email} {--subscribe}';
+		return 'group:join {group} {name} {email} {--subscribe}';
 	}
 	
 	public function asCommand(Command $command): int

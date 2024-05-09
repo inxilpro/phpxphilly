@@ -8,7 +8,7 @@ return new class extends Migration {
 	public function up(): void
 	{
 		Schema::create('meetups', function(Blueprint $table) {
-			$table->id();
+			$table->snowflakeId();
 			$table->foreignId('group_id')->constrained('groups');
 			$table->string('location');
 			$table->text('description');

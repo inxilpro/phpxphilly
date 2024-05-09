@@ -7,6 +7,7 @@ use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Group extends Model
@@ -34,6 +35,11 @@ class Group extends Model
 			->withPivot('id', 'is_subscribed')
 			->withTimestamps()
 			->using(GroupMembership::class);
+	}
+	
+	public function meetups(): HasMany
+	{
+		return $this->hasMany(Meetup::class);
 	}
 }
 
