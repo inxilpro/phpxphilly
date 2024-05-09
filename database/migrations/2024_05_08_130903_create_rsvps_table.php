@@ -7,16 +7,17 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
 	public function up(): void
 	{
-		Schema::create('newsletter_subscribers', function(Blueprint $table) {
+		Schema::create('rsvps', function(Blueprint $table) {
 			$table->snowflakeId();
-			$table->string('full_name');
-			$table->string('email');
+			$table->foreignId('meetup_id')->constrained('meetups');
+			$table->foreignId('user_id')->constrained('users');
 			$table->timestamps();
+			$table->softDeletes();
 		});
 	}
 	
 	public function down(): void
 	{
-		Schema::dropIfExists('newsletter_subscribers');
+		Schema::dropIfExists('rsvps');
 	}
 };
