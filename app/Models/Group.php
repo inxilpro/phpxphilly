@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Routing\UrlGenerator;
 
 class Group extends Model
 {
@@ -26,6 +27,18 @@ class Group extends Model
 		}
 		
 		return $container->get($id);
+	}
+	
+	public function url(string $path, array $parameters = [], bool $secure = true): string
+	{
+		$generator = app(UrlGenerator::class);
+		
+		try {
+			$generator->forceRootUrl('https://'.$this->domain);
+			return $generator->to($path, $parameters, $secure);
+		} finally {
+			$generator->forceRootUrl(null);
+		}
 	}
 	
 	public function users(): BelongsToMany

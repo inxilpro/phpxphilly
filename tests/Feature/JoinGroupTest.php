@@ -10,6 +10,22 @@ class JoinGroupTest extends TestCase
 {
 	use RefreshDatabase;
 	
+	public function test_you_can_access_the_join_page(): void
+	{
+		$philly = Group::findByDomain('phpxphilly.com');
+		$nyc = Group::findByDomain('phpxnyc.com');
+		
+		$this->get($philly->url('join'))
+			->assertOk()
+			->assertSee($philly->name)
+			->assertSee('action="'.$philly->url('join').'"', false);
+		
+		$this->get($nyc->url('join'))
+			->assertOk()
+			->assertSee($nyc->name)
+			->assertSee('action="'.$nyc->url('join').'"', false);
+	}
+	
 	public function test_you_can_join_a_group_and_subscribe_to_updates(): void
 	{
 		$philly = Group::findByDomain('phpxphilly.com');

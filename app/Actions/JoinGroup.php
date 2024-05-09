@@ -19,7 +19,7 @@ class JoinGroup
 	
 	public static function routes(Router $router): void
 	{
-		$router->post('join', static::class)->middleware('web');
+		$router->post('join', static::class);
 	}
 	
 	public function handle(Group $group, string $name, string $email, bool $subscribe = false): User
@@ -61,7 +61,7 @@ class JoinGroup
 			? "You are now subscribed to updates from {$group->name}."
 			: "You are now unsubscribed from {$group->name} updates";
 		
-		Session::flash($message);
+		Session::flash('message', $message);
 		
 		return redirect()->back();
 	}

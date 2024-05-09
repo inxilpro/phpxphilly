@@ -13,7 +13,7 @@
 			</a>
 			<span class="w-2"></span>
 			--}}
-			<a href="{{ route('newsletter-subscriber.create') }}" class="group relative">
+			<a href="{{ url('join') }}" class="group relative">
 				<div class="absolute bg-white whitespace-nowrap px-2 py-1 text-black font-mono font-bold -top-full -left-2 transform transition-all ease-out duration-100 opacity-0 rotate-6 pointer-events-none translate-y-3 group-hover:-rotate-3 group-hover:block group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto">
 					Get Updates
 				</div>

@@ -2,15 +2,10 @@
 
 namespace App\Actions;
 
-use App\Models\Group;
 use App\Models\Meetup;
 use App\Models\User;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Routing\Router;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Str;
 use Lorisleiva\Actions\ActionRequest;
 use Lorisleiva\Actions\Concerns\AsAction;
 
@@ -20,7 +15,7 @@ class RsvpToMeetup
 	
 	public static function routes(Router $router): void
 	{
-		$router->post('meetups/{meetup}/rsvps', static::class)->middleware('web');
+		$router->post('meetups/{meetup}/rsvps', static::class);
 	}
 	
 	public function handle(Meetup $meetup, User $user): void
@@ -62,10 +57,10 @@ class RsvpToMeetup
 		$meetup = Meetup::findOrFail($command->argument('meetup'));
 		
 		$user = JoinGroup::run(
-			group: $meetup->group, 
-			name: $command->argument('name'), 
+			group: $meetup->group,
+			name: $command->argument('name'),
 			email: $command->argument('email'),
-			subscribe: $command->option('subscribe'), 
+			subscribe: $command->option('subscribe'),
 		);
 		
 		$this->handle($meetup, $user);
