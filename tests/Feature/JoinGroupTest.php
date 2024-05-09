@@ -6,7 +6,7 @@ use App\Models\Group;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class GroupMembershipTest extends TestCase
+class JoinGroupTest extends TestCase
 {
 	use RefreshDatabase;
 	
