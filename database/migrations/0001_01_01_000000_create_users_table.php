@@ -6,17 +6,15 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->snowflakeId();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+			$table->boolean('is_potential_speaker')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });
@@ -36,10 +34,7 @@ return new class extends Migration
             $table->integer('last_activity')->index();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
+	
     public function down(): void
     {
         Schema::dropIfExists('users');

@@ -33,7 +33,7 @@
 			type="button"
 			class="flex items-center gap-2 bg-black border-2 border-white text-white font-mono font-bold"
 		>
-			<span class="px-2.5 py-1.5">PHP ×</span>
+			<span class="px-2.5 py-1.5 pr-1">PHP<span class="inline-block ml-0.5">×</span></span>
 			<span class="border-l-2 border-gray-200 bg-white text-black px-2.5 py-1.5 flex items-center">
 				Philly
 				<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" viewBox="0 0 20 20" fill="currentColor">

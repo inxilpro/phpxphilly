@@ -1,10 +1,10 @@
 @props(['footer' => null, 'title' => null])
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full antialiased bg-black text-white/50">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>{{ $title ? "{$title} - PHP × Philly" : 'PHP × Philly' }}</title>
+	<title>{{ $title ? "{$title} - {$group->name}" : $group->name }}</title>
 	<link rel="preconnect" href="https://fonts.bunny.net">
 	<link href="https://fonts.bunny.net/css?family=fira-code:300,400,500,600,700" rel="stylesheet" />
 	<style>
@@ -35,7 +35,11 @@
 <div {{ $attributes->merge(['class' => 'flex w-full flex-col bg-dots']) }}>
 	{{-- Header --}}
 	<div class="w-full max-w-4xl mx-auto flex items-center gap-4 p-4">
-		<x-phpx-dropdown />
+		@if(url()->current() == url('/'))
+			<x-phpx-dropdown />
+		@else
+			<x-phpx-home />
+		@endif
 	</div>
 	
 	{{-- Content --}}
@@ -53,7 +57,7 @@
 	@else
 		<div></div>
 	@endisset
-	
+
 </div>
 </body>
 </html>
