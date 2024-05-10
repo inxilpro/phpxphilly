@@ -11,12 +11,20 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Cache;
+use Spatie\MailcoachSdk\Mailcoach;
 
 class Group extends Model
 {
 	use SoftDeletes;
 	use HasFactory;
 	use HasSnowflakes;
+	
+	protected function casts(): array
+	{
+		return [
+			'mailcoach_token' => 'encrypted',
+		];
+	}
 	
 	protected static function booted()
 	{
@@ -33,6 +41,15 @@ class Group extends Model
 		}
 		
 		return $container->get($id);
+	}
+	
+	public function mailcoach(): ?Mailcoach
+	{
+		if (!isset($this->mailcoach_token, $this->mailcoach_list, $this->mailcoach_endpoint)) {
+			return null;
+		}
+		
+		return new Mailcoach($this->mailcoach_token, $this->mailcoach_endpoint);
 	}
 	
 	public function url(string $path, array $parameters = [], bool $secure = true): string

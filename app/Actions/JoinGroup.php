@@ -40,6 +40,20 @@ class JoinGroup
 			'is_potential_speaker' => $speaker,
 		]);
 		
+		if ($mailcoach = $group->mailcoach()) {
+			$mailcoach_list = $mailcoach->emailList($group->mailcoach_list);
+			$subscriber = $mailcoach_list->subscriber($email);
+			
+			match(true) {
+				null === $subscriber && $subscribe => $mailcoach->createSubscriber($group->mailcoach_list, [
+					'email' => $email,
+					'first_name' => $name,
+					'tags' => ['phpx', $group->domain, $speaker ? 'speakers' : 'non-speakers'],
+				]),
+				null !== $subscriber && ! $subscribe => $mailcoach->unsubscribeSubscriber($subscriber->uuid),
+			};
+		}
+		
 		return $user;
 	}
 	
