@@ -14,6 +14,8 @@ class GroupSeeder extends Seeder
 			'name' => 'PHP×NYC',
 			'twitter_url' => 'https://twitter.com/joetannenbaum',
 			'meetup_url' => 'https://www.meetup.com/php-nyc/',
+			'description' => 'A fresh PHP meetup for NYC area devs.',
+			'og_asset' => 'nyc.png',
 		]);
 		
 		app()->instance('group:phpxnyc.com', $nyc);
