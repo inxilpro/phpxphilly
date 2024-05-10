@@ -11,6 +11,8 @@ class GroupMembership extends Pivot
 	
 	public $timestamps = true;
 	
+	protected $table = 'group_memberships';
+	
 	protected $casts = [
 		'is_subscribed' => 'boolean',
 	];

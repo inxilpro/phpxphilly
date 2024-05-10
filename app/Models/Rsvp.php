@@ -11,6 +11,8 @@ class Rsvp extends Pivot
 	
 	public $timestamps = true;
 	
+	protected $table = 'rsvps';
+	
 	protected $casts = [
 		'interests' => 'collection',
 	];
