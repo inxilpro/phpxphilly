@@ -35,6 +35,7 @@ class JoinGroupTest extends TestCase
 			'name' => 'Chris Morrell',
 			'email' => 'chris@phpxphilly.com',
 			'subscribe' => '1',
+			'speaker' => '0',
 		];
 		
 		// Join Philly
@@ -47,12 +48,13 @@ class JoinGroupTest extends TestCase
 		
 		$this->assertEquals('Chris Morrell', $philly_user->name);
 		$this->assertEquals('chris@phpxphilly.com', $philly_user->email);
+		$this->assertFalse($philly_user->is_potential_speaker);
 		$this->assertTrue($philly_user->group_membership->is_subscribed);
 		$this->assertTrue($philly_user->current_group()->is($philly));
 		
 		// Unsubscribe from Philly
 		
-		$this->post('https://phpxphilly.com/join', array_merge($payload, ['subscribe' => '0']))
+		$this->post('https://phpxphilly.com/join', array_merge($payload, ['subscribe' => '0', 'speaker' => '1']))
 			->assertSessionHasNoErrors()
 			->assertRedirect();
 		
@@ -60,6 +62,7 @@ class JoinGroupTest extends TestCase
 		
 		$this->assertEquals('Chris Morrell', $philly_user->name);
 		$this->assertEquals('chris@phpxphilly.com', $philly_user->email);
+		$this->assertTrue($philly_user->is_potential_speaker);
 		$this->assertFalse($philly_user->group_membership->is_subscribed);
 		$this->assertTrue($philly_user->current_group()->is($philly));
 		

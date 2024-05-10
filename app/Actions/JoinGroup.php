@@ -22,7 +22,7 @@ class JoinGroup
 		$router->post('join', static::class);
 	}
 	
-	public function handle(Group $group, string $name, string $email, bool $subscribe = false): User
+	public function handle(Group $group, string $name, string $email, bool $subscribe = false, bool $speaker = false): User
 	{
 		$user = User::firstOrCreate(
 			[
@@ -34,7 +34,11 @@ class JoinGroup
 		);
 		
 		$user->groups()->syncWithoutDetaching([$group->getKey() => ['is_subscribed' => $subscribe]]);
-		$user->update(['current_group_id' => $group->getKey()]);
+		
+		$user->update([
+			'current_group_id' => $group->getKey(), 
+			'is_potential_speaker' => $speaker,
+		]);
 		
 		return $user;
 	}
@@ -45,6 +49,7 @@ class JoinGroup
 			'name' => ['required', 'string', 'max:255'],
 			'email' => ['required', 'string', 'email', 'max:255'],
 			'subscribe' => ['nullable', 'boolean'],
+			'speaker' => ['nullable', 'boolean'],
 		];
 	}
 	
@@ -55,6 +60,7 @@ class JoinGroup
 			name: $request->validated('name'),
 			email: $request->validated('email'),
 			subscribe: $request->boolean('subscribe'),
+			speaker: $request->boolean('speaker'),
 		);
 		
 		$message = $request->boolean('subscribe')
@@ -68,7 +74,7 @@ class JoinGroup
 	
 	public function getCommandSignature(): string
 	{
-		return 'group:join {group} {name} {email} {--subscribe}';
+		return 'group:join {group} {name} {email} {--subscribe} {--speaker}';
 	}
 	
 	public function asCommand(Command $command): int
@@ -85,7 +91,8 @@ class JoinGroup
 			group: $group,
 			name: $command->argument('name'),
 			email: $command->argument('email'),
-			subscribe: $command->option('subscribe')
+			subscribe: $command->option('subscribe'),
+			speaker: $command->option('speaker'),
 		);
 		
 		$command->info('User added to group.');

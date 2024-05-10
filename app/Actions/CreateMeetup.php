@@ -4,12 +4,9 @@ namespace App\Actions;
 
 use App\Models\Group;
 use App\Models\Meetup;
-use App\Models\User;
+use Carbon\CarbonInterface;
 use Illuminate\Console\Command;
-use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Facades\Session;
-use Lorisleiva\Actions\ActionRequest;
 use Lorisleiva\Actions\Concerns\AsAction;
 use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\select;
@@ -21,9 +18,21 @@ class CreateMeetup
 {
 	use AsAction;
 	
-	public function handle(Meetup $meetup, User $user): void
-	{
-		
+	public function handle(
+		Group $group,
+		string $location,
+		string $description,
+		int $capacity,
+		CarbonInterface $starts_at,
+		CarbonInterface $ends_at,
+	): Meetup {
+		return $group->meetups()->create([
+			'location' => $location,
+			'description' => $description,
+			'capacity' => $capacity,
+			'starts_at' => $starts_at,
+			'ends_at' => $ends_at,
+		]);
 	}
 	
 	public function getCommandSignature(): string
@@ -50,17 +59,8 @@ class CreateMeetup
 		]);
 		
 		if (confirm('Is this correct?')) {
-			$meetup = $group->meetups()->create([
-				'location' => $location,
-				'description' => $description,
-				'capacity' => $capacity,
-				'starts_at' => $starts_at,
-				'ends_at' => $ends_at,
-			]);
-			
-			$command->info('Created meetup!');
-			
-			dump($meetup->toArray());
+			$meetup = $this->handle($group, $location, $description, $capacity, $starts_at, $ends_at);
+			$command->info("Created meetup <{$meetup->getKey()}>!");
 			return 0;
 		}
 		

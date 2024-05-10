@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\Groups;
 use App\Models\Group;
 use Closure;
 use Illuminate\Container\Container;
@@ -26,6 +25,8 @@ class SetGroupFromDomainMiddleware
 		Context::add('group_id', $group->getKey());
 		View::share('group', $group);
 		$request->attributes->set('group', $group);
+		
+		config(['app.timezone' => $group->timezone]);
 		
 		return $next($request);
 	}

@@ -6,6 +6,7 @@ use App\Models\Meetup;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Session;
 use Lorisleiva\Actions\ActionRequest;
 use Lorisleiva\Actions\Concerns\AsAction;
 
@@ -29,7 +30,7 @@ class RsvpToMeetup
 			'name' => ['required', 'string', 'max:255'],
 			'email' => ['required', 'string', 'email', 'max:255'],
 			'subscribe' => ['nullable', 'boolean'],
-			// 'interests' => ['array'],
+			'speaker' => ['nullable', 'boolean'],
 		];
 	}
 	
@@ -40,16 +41,19 @@ class RsvpToMeetup
 			name: $request->validated('name'),
 			email: $request->validated('email'),
 			subscribe: $request->boolean('subscribe'),
+			speaker: $request->boolean('speaker'),
 		);
 		
 		$this->handle($meetup, $user);
+		
+		Session::flash('message', 'You’re registered for the event!');
 		
 		return redirect()->back();
 	}
 	
 	public function getCommandSignature(): string
 	{
-		return 'meetup:rsvp {meetup} {name} {email} {--subscribe}';
+		return 'meetup:rsvp {meetup} {name} {email} {--subscribe} {--speaker}';
 	}
 	
 	public function asCommand(Command $command): int
@@ -61,6 +65,7 @@ class RsvpToMeetup
 			name: $command->argument('name'),
 			email: $command->argument('email'),
 			subscribe: $command->option('subscribe'),
+			speaker: $command->option('speaker'),
 		);
 		
 		$this->handle($meetup, $user);

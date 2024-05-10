@@ -26,7 +26,7 @@ class RsvpToMeetupTest extends TestCase
 			'name' => 'Chris Morrell',
 			'email' => 'chris@phpxphilly.com',
 			'subscribe' => '1',
-			'interests' => ['speaking'],
+			'speaker' => '1',
 		];
 		
 		$this->post("https://phpxphilly.com/meetups/{$meetup->id}/rsvps", $payload)
@@ -39,6 +39,7 @@ class RsvpToMeetupTest extends TestCase
 		$this->assertTrue($meetup_user->is($philly_user));
 		$this->assertEquals('Chris Morrell', $meetup_user->name);
 		$this->assertEquals('chris@phpxphilly.com', $meetup_user->email);
+		$this->assertTrue($philly_user->is_potential_speaker);
 		$this->assertTrue($philly_user->group_membership->is_subscribed);
 		$this->assertTrue($meetup_user->current_group()->is($philly));
 		
