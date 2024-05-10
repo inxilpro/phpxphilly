@@ -10,12 +10,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Routing\UrlGenerator;
+use Illuminate\Support\Facades\Cache;
 
 class Group extends Model
 {
 	use SoftDeletes;
 	use HasFactory;
 	use HasSnowflakes;
+	
+	protected static function booted()
+	{
+		static::saved(fn() => Cache::forget('phpx-network'));
+	}
 	
 	public static function findByDomain(string $domain): ?static
 	{

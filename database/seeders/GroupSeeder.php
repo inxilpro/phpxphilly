@@ -23,6 +23,8 @@ class GroupSeeder extends Seeder
 			'name' => 'PHP×Philly',
 			'twitter_url' => 'https://twitter.com/inxilpro',
 			'meetup_url' => 'https://www.meetup.com/php-philly/',
+			'description' => 'A Philly-area PHP meetup for web artisans who want to learn and connect.',
+			'og_asset' => 'philly.png',
 		]);
 		
 		app()->instance('group:phpxphilly.com', $philly);

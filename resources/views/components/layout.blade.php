@@ -1,5 +1,5 @@
 @props(['footer' => null, 'title' => null])
-	<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full antialiased bg-black text-white/50">
 <head>
 	<meta charset="utf-8">
@@ -15,21 +15,25 @@
 	@vite('resources/css/app.css')
 	@vite('resources/js/app.js')
 	
-	<meta name="description" content="A Philly-area PHP meetup for web artisans who want to learn and connect." />
 	<meta property="og:url" content="{{ url()->current() }}" />
 	<meta property="og:type" content="website" />
-	<meta property="og:title" content="PHP × Philly" />
-	<meta property="og:description" content="A Philly-area PHP meetup for web artisans who want to learn and connect." />
-	<meta property="og:image" content="{{ asset('og.png') }}" />
+	<meta property="og:title" content="{{ $title ? "{$title} - {$group->name}" : $group->name }}" />
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta property="twitter:domain" content="{{ parse_url(url()->current(), PHP_URL_HOST) }}" />
 	<meta property="twitter:url" content="{{ url()->current() }}" />
-	<meta name="twitter:title" content="PHP × Philly" />
-	<meta name="twitter:description" content="A Philly-area PHP meetup for web artisans who want to learn and connect." />
-	<meta name="twitter:image" content="{{ asset('og.png') }}" />
-	<meta name="twitter:creator" content="@inxilpro" />
+	<meta name="twitter:title" content="{{ $title ? "{$title} - {$group->name}" : $group->name }}" />
+	<meta name="twitter:creator" content="{{ str($group->twitter_url)->after('twitter.com/')->prepend('@') }}" />
+	@if($group->description)
+		<meta name="description" content="{{ $group->description }}" />
+		<meta property="og:description" content="{{ $group->description }}" />
+		<meta name="twitter:description" content="{{ $group->description }}" />
+	@endif
+	@if($group->og_asset)
+		<meta property="og:image" content="{{ asset("og/{$group->og_asset}") }}" />
+		<meta name="twitter:image" content="{{ asset("og/{$group->og_asset}") }}" />
+	@endif
 	
-	<script defer data-domain="phpxphilly.com" src="https://plausible.io/js/script.js"></script>
+	<script defer data-domain="{{ $group->domain }}" src="https://plausible.io/js/script.js"></script>
 </head>
 <body class="flex min-h-full font-sans">
 <div {{ $attributes->merge(['class' => 'flex w-full flex-col bg-dots']) }}>
