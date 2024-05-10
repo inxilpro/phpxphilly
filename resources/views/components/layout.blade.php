@@ -1,5 +1,5 @@
 @props(['footer' => null, 'title' => null])
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full antialiased bg-black text-white/50">
 <head>
 	<meta charset="utf-8">
@@ -35,7 +35,11 @@
 <div {{ $attributes->merge(['class' => 'flex w-full flex-col bg-dots']) }}>
 	{{-- Header --}}
 	<div class="w-full max-w-4xl mx-auto flex items-center gap-4 p-4">
-		<x-phpx-dropdown />
+		@if(url()->current() == url('/'))
+			<x-phpx-dropdown />
+		@else
+			<x-phpx-home />
+		@endif
 	</div>
 	
 	{{-- Content --}}
@@ -53,7 +57,7 @@
 	@else
 		<div></div>
 	@endisset
-	
+
 </div>
 </body>
 </html>

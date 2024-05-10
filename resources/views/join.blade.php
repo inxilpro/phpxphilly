@@ -46,6 +46,13 @@
 		</div>
 		@enderror
 		
+		<div class="mt-5 flex flex-col gap-2">
+			<label class="font-mono text-lg text-white font-semibold">
+				<input type="checkbox" name="speaker" value="1" />
+				I'm interested in speaking
+			</label>
+		</div>
+		
 		<input type="hidden" name="subscribe" value="1" />
 		
 		<div class="mt-3">
