@@ -7,12 +7,12 @@
 			A bi-monthly<span x-data x-typed.cursorless.delay.3000="['(ish)']"></span> meetup for PHP artisans.
 		</h2>
 		<div class="flex gap-4 items-center">
-			{{--
-			<a href="/rsvp" class="bg-white px-4 py-2.5 text-black font-semibold text-lg transform opacity-90 hover:opacity-100 hover:-rotate-2">
-				RSVP<span class="not-sr-only">_</span>
-			</a>
-			<span class="w-2"></span>
-			--}}
+			@isset($next_meetup)
+				<a href="{{ url("/meetups/{$next_meetup->getKey()}/rsvps") }}" class="bg-white px-4 py-2.5 text-black font-semibold text-lg transform opacity-90 hover:opacity-100 hover:-rotate-2">
+					RSVP for {{ $next_meetup->starts_at->format('M jS') }}<span class="not-sr-only">_</span>
+				</a>
+				<span class="w-2"></span>
+			@endisset
 			<a href="{{ url('join') }}" class="group relative">
 				<div class="absolute bg-white whitespace-nowrap px-2 py-1 text-black font-mono font-bold -top-full -left-2 transform transition-all ease-out duration-100 opacity-0 rotate-6 pointer-events-none translate-y-3 group-hover:-rotate-3 group-hover:block group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto">
 					Get Updates

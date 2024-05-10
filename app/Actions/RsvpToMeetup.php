@@ -36,6 +36,8 @@ class RsvpToMeetup
 	
 	public function asController(ActionRequest $request, Meetup $meetup)
 	{
+		$remaining = $meetup->remaining();
+		
 		$user = JoinGroup::run(
 			group: $meetup->group,
 			name: $request->validated('name'),
@@ -46,7 +48,11 @@ class RsvpToMeetup
 		
 		$this->handle($meetup, $user);
 		
-		Session::flash('message', 'You’re registered for the event!');
+		$message = $remaining > 0
+			? 'You are RSVP’d for the meetup!'
+			: 'You are waitlisted! We’ll let you know if space opens up.';
+		
+		Session::flash('message', $message);
 		
 		return redirect()->back();
 	}

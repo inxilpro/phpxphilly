@@ -10,6 +10,16 @@
 	
 	<x-flash-message />
 	
+	{{-- Show the capacity message only if we don't have a flash message --}}
+	@if(session()->has('message'))
+	@elseif($meetup->remaining() === 1)
+		<x-alert message="There is only 1 spot left!" />
+	@elseif($meetup->remaining() > 0 && $meetup->remaining() < 10)
+		<x-alert message="There are only {{ $meetup->remaining() }} spots left!" />
+	@elseif(! $meetup->remaining())
+		<x-alert message="We are at capacity, so if you register now you will be waitlisted…" />
+	@endunless
+	
 	<div class="prose prose-invert my-8 text-xl max-w-3xl">
 		{{ $meetup }}
 	</div>
@@ -19,7 +29,6 @@
 		method="post" 
 		class="w-full transform -rotate-1 md:ml-8"
 	>
-		
 		@csrf
 		
 		<div class="max-w-md">

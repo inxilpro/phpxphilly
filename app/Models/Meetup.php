@@ -51,6 +51,13 @@ class Meetup extends Model implements Htmlable
 		return Str::markdown($this->description);
 	}
 	
+	public function remaining(): int
+	{
+		$rsvps = $this->users_count ?? $this->loadCount('users')->users_count;
+		
+		return max(0, $this->capacity - $rsvps);
+	}
+	
 	public function range(): string
 	{
 		$starts_at = $this->starts_at->timezone(config('app.timezone'));

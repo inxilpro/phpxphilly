@@ -14,4 +14,12 @@ class Rsvp extends Pivot
 	protected $casts = [
 		'interests' => 'collection',
 	];
+	
+	// protected static function booted()
+	// {
+	// 	static::saved(function(Rsvp $rsvp) {
+	// 		$meetup = Meetup::find($rsvp->meetup_id);
+	// 		return Cache::forget("group:{$meetup->group_id}:next-meetup");
+	// 	});
+	// }
 }
