@@ -7,7 +7,7 @@ use App\Models\Meetup;
 use App\Models\User;
 use Lorisleiva\Actions\Concerns\AsAction;
 
-class SendRsvpReceipt
+class SendMeetupAnnouncement
 {
 	use AsAction;
 	use FetchesModelsForCommands;
@@ -23,6 +23,6 @@ class SendRsvpReceipt
 	
 	public function getCommandSignature(): string
 	{
-		return 'email:send-rsvp-receipt {meetup?} {user?}';
+		return 'email:send-announcement {meetup?} {user?}';
 	}
 }

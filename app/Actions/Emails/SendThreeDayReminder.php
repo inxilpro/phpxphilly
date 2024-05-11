@@ -5,9 +5,11 @@ namespace App\Actions\Emails;
 use App\Actions\Concerns\FetchesModelsForCommands;
 use App\Models\Meetup;
 use App\Models\User;
+use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 use Lorisleiva\Actions\Concerns\AsAction;
 
-class SendRsvpReceipt
+class SendThreeDayReminder
 {
 	use AsAction;
 	use FetchesModelsForCommands;
@@ -23,6 +25,6 @@ class SendRsvpReceipt
 	
 	public function getCommandSignature(): string
 	{
-		return 'email:send-rsvp-receipt {meetup?} {user?}';
+		return 'email:send-three-day-reminder {meetup?} {user?}';
 	}
 }

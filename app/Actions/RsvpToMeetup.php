@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Actions\Emails\SendRsvpReceipt;
 use App\Models\Meetup;
 use App\Models\User;
 use Illuminate\Console\Command;
@@ -22,6 +23,8 @@ class RsvpToMeetup
 	public function handle(Meetup $meetup, User $user): void
 	{
 		$meetup->users()->syncWithoutDetaching($user->getKey());
+		
+		SendRsvpReceipt::run($meetup, $user);
 	}
 	
 	public function rules(): array

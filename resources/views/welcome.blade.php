@@ -9,7 +9,7 @@
 		<div class="flex gap-4 items-center">
 			@isset($next_meetup)
 				<a href="{{ url("/meetups/{$next_meetup->getKey()}/rsvps") }}" class="bg-white px-4 py-2.5 text-black font-semibold text-lg transform opacity-90 hover:opacity-100 hover:-rotate-2">
-					RSVP for {{ $next_meetup->starts_at->format('M jS') }}<span class="not-sr-only">_</span>
+					RSVP<span class="hidden sm:inline"> for {{ $next_meetup->starts_at->format('M jS') }}</span><span class="not-sr-only">_</span>
 				</a>
 				<span class="w-2"></span>
 			@endisset

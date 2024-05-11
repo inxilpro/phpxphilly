@@ -6,6 +6,7 @@ use Carbon\CarbonInterface;
 use Glhd\Bits\Database\HasSnowflakes;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,6 +22,12 @@ class Meetup extends Model implements Htmlable
 	protected $casts = [
 		'starts_at' => 'datetime',
 		'ends_at' => 'datetime',
+	];
+	
+	protected $appends = [
+		'rsvp_url',
+		'date_day',
+		'date_range',
 	];
 	
 	protected static function booted()
@@ -76,5 +83,20 @@ class Meetup extends Model implements Htmlable
 		$start = $starts_at->format('F jS');
 		$end = $ends_at->format("F jS Y");
 		return "{$start}–{$end}";
+	}
+	
+	protected function rsvpUrl(): Attribute
+	{
+		return Attribute::get(fn() => $this->group->url("meetups/{$this->getKey()}/rsvps"));
+	}
+	
+	protected function dateDay(): Attribute
+	{
+		return Attribute::get(fn() => $this->starts_at->timezone(config('app.timezone'))->format('F jS'));
+	}
+	
+	protected function dateRange(): Attribute
+	{
+		return Attribute::get(fn() => $this->range());
 	}
 }
