@@ -3,7 +3,6 @@
 namespace App\Actions;
 
 use App\Actions\Concerns\FetchesModelsForCommands;
-use App\Actions\Concerns\HasOptionalUserArgument;
 use App\Models\Group;
 use App\Models\GroupMembership;
 use App\Models\User;
