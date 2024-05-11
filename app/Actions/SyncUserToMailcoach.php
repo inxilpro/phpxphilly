@@ -2,7 +2,7 @@
 
 namespace App\Actions;
 
-use App\Actions\Concerns\HasOptionalGroupArgument;
+use App\Actions\Concerns\FetchesModelsForCommands;
 use App\Actions\Concerns\HasOptionalUserArgument;
 use App\Models\Group;
 use App\Models\GroupMembership;
@@ -13,8 +13,7 @@ use Lorisleiva\Actions\Concerns\AsAction;
 class SyncUserToMailcoach
 {
 	use AsAction;
-	use HasOptionalGroupArgument;
-	use HasOptionalUserArgument;
+	use FetchesModelsForCommands;
 	
 	public function handle(Group $group, User $user): ?bool
 	{

@@ -77,5 +77,10 @@ class Group extends Model
 	{
 		return $this->hasMany(Meetup::class);
 	}
+	
+	public function mailcoach_transactional_emails(): HasMany
+	{
+		return $this->hasMany(MailcoachTransactionalEmail::class);
+	}
 }
 
