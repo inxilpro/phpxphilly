@@ -50,12 +50,10 @@ class GenerateOpenGraphImage
 			urlFont: $font,
 		);
 		
-		
-		
 		(new Image())
 			->theme($theme)
 			->layout(new GitHubBasic())
-			->border(BorderPosition::All, new Color(0, 0, 0), 80)
+			->border(BorderPosition::All, new Color(0, 0, 0, 0), 100)
 			->url($meetup->group->domain)
 			->title("Meetup @ {$meetup->location}")
 			->description($meetup->range())
@@ -75,7 +73,7 @@ class GenerateOpenGraphImage
 		$meetup = $this->getMeetupFromCommand($command);
 		$filename = $this->handle($meetup);
 		
-		$command->line("Wrote to <info>{$filename}</info>");
+		$command->line("Wrote og image to <info>{$filename}</info>");
 		
 		return 0;
 	}
