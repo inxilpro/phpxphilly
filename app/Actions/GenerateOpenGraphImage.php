@@ -9,13 +9,10 @@ use App\Support\JetBrainsMono;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Lorisleiva\Actions\Concerns\AsAction;
-use SimonHamp\TheOg\Background;
 use SimonHamp\TheOg\BorderPosition;
 use SimonHamp\TheOg\Image;
 use SimonHamp\TheOg\Interfaces\Font;
-use SimonHamp\TheOg\Layout\Layouts\Avatar;
 use SimonHamp\TheOg\Layout\Layouts\GitHubBasic;
-use SimonHamp\TheOg\Layout\Layouts\TwoUp;
 use SimonHamp\TheOg\Theme;
 
 class GenerateOpenGraphImage
@@ -51,7 +48,7 @@ class GenerateOpenGraphImage
 			titleColor: '#ffffff',
 			titleFont: $font,
 			urlColor: '#808080',
-			urlFont: $font,      
+			urlFont: $font,
 		);
 		
 		(new Image())
