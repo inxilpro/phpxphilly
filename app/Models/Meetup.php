@@ -67,8 +67,8 @@ class Meetup extends Model implements Htmlable
 	
 	public function range(): string
 	{
-		$starts_at = $this->starts_at->timezone(config('app.timezone'));
-		$ends_at = $this->ends_at->timezone(config('app.timezone'));
+		$starts_at = $this->starts_at->timezone($this->group->timezone);
+		$ends_at = $this->ends_at->timezone($this->group->timezone);
 		
 		if ($starts_at->eq($ends_at)) {
 			return $starts_at->format("l, F jS Y \a\\t g:ia T");
