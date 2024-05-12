@@ -36,7 +36,8 @@ class GenerateOpenGraphImage
 			baseFont: $font,
 			baseColor: '#ffffff',
 			backgroundColor: '#000000',
-			background: new Theme\Background(storage_path('app/og/images/dots.png')),
+			background: null,
+			// background: new Theme\Background(storage_path('app/og/images/dots.png')),
 			borderColor: '#000000',
 			callToActionBackgroundColor: '#000000',
 			callToActionColor: '#ffffff',
@@ -48,6 +49,8 @@ class GenerateOpenGraphImage
 			urlColor: '#808080',
 			urlFont: $font,
 		);
+		
+		
 		
 		(new Image())
 			->theme($theme)
