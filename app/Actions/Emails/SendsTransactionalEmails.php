@@ -50,8 +50,8 @@ trait SendsTransactionalEmails
 		
 		$mailcoach->sendTransactionMail(
 			name: $transactional_email->mail_name,
-			from: $meetup->group->email,
-			to: $user->email,
+			from: "{$meetup->group->name} <{$meetup->group->email}>",
+			to: "{$user->name} <{$user->email}>",
 			replacements: Arr::dot($replacements),
 		);
 		

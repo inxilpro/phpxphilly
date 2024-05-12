@@ -14,9 +14,10 @@ class ConfigureMailcoach
 {
 	use AsAction;
 	
-	public function handle(Group $group, string $token, string $endpoint, string $list)
+	public function handle(Group $group, string $token, string $endpoint, string $list, string $email)
 	{
 		$group->update([
+			'email' => $email,
 			'mailcoach_token' => $token,
 			'mailcoach_endpoint' => $endpoint,
 			'mailcoach_list' => $list,
@@ -35,6 +36,7 @@ class ConfigureMailcoach
 		$token = text('What is the mailcoach token?', default: (string) $group->mailcoach_token, required: true);
 		$endpoint = text('What is the mailcoach API endpoint?', default: (string) $group->mailcoach_endpoint, required: true);
 		$list = text('What is the mailcoach list ID?', default: (string) $group->mailcoach_list, required: true);
+		$email = text('What is the group email address?', default: (string) $group->email, required: true);
 		
 		$client = new Mailcoach($token, $endpoint);
 		
@@ -46,7 +48,7 @@ class ConfigureMailcoach
 			return 1;
 		}
 		
-		$this->handle($group, $token, $endpoint, $list);
+		$this->handle($group, $token, $endpoint, $list, $email);
 		
 		$command->info('MailCoach configured!');
 		return 0;
