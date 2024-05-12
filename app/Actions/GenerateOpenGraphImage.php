@@ -6,6 +6,7 @@ use App\Actions\Concerns\FetchesModelsForCommands;
 use App\Models\Meetup;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Intervention\Image\Colors\Rgb\Color;
 use Lorisleiva\Actions\Concerns\AsAction;
 use SimonHamp\TheOg\BorderPosition;
 use SimonHamp\TheOg\Image;
@@ -54,7 +55,7 @@ class GenerateOpenGraphImage
 		(new Image())
 			->theme($theme)
 			->layout(new GitHubBasic())
-			->border(BorderPosition::None)
+			->border(BorderPosition::All, new Color(0, 0, 0), 80)
 			->url($meetup->group->domain)
 			->title("Meetup @ {$meetup->location}")
 			->description($meetup->range())
