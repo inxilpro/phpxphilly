@@ -9,7 +9,7 @@ return new class extends Migration {
 	{
 		Schema::table('groups', function(Blueprint $table) {
 			$table->after('timezone', function(Blueprint $table) {
-				$table->string('mailcoach_token')->nullable();
+				$table->text('mailcoach_token')->nullable();
 				$table->string('mailcoach_endpoint')->nullable();
 				$table->string('mailcoach_list')->nullable();
 			});
