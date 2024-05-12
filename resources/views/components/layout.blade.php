@@ -1,4 +1,4 @@
-@props(['footer' => null, 'title' => null])
+@props(['footer' => null, 'title' => null, 'og' => null])
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full antialiased bg-black text-white/50">
 <head>
@@ -15,6 +15,9 @@
 	@vite('resources/css/app.css')
 	@vite('resources/js/app.js')
 	
+	@isset($og)
+		{{ $og }}
+	@else
 	<meta property="og:url" content="{{ url()->current() }}" />
 	<meta property="og:type" content="website" />
 	<meta property="og:title" content="{{ $title ? "{$title} - {$group->name}" : $group->name }}" />
@@ -32,6 +35,7 @@
 		<meta property="og:image" content="{{ asset("og/{$group->og_asset}") }}" />
 		<meta name="twitter:image" content="{{ asset("og/{$group->og_asset}") }}" />
 	@endif
+	@endisset
 	
 	<script defer data-domain="{{ $group->domain }}" src="https://plausible.io/js/script.js"></script>
 </head>

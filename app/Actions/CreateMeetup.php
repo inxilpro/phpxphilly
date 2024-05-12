@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Actions;
+namespace vendor;
 
+use App\Actions\GenerateOpenGraphImage;
 use App\Models\Group;
 use App\Models\Meetup;
 use Carbon\CarbonInterface;
@@ -26,13 +27,17 @@ class CreateMeetup
 		CarbonInterface $starts_at,
 		CarbonInterface $ends_at,
 	): Meetup {
-		return $group->meetups()->create([
+		$meetup = $group->meetups()->create([
 			'location' => $location,
 			'description' => $description,
 			'capacity' => $capacity,
 			'starts_at' => $starts_at,
 			'ends_at' => $ends_at,
 		]);
+		
+		GenerateOpenGraphImage::run($meetup);
+		
+		return $meetup;
 	}
 	
 	public function getCommandSignature(): string

@@ -1,5 +1,23 @@
 <x-layout title="RSVP">
 	
+	<x-slot:og>
+		<meta property="og:url" content="{{ url()->current() }}" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="Meetup @ {{ $meetup->location }} - {{ $group->name }}" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta property="twitter:domain" content="{{ parse_url(url()->current(), PHP_URL_HOST) }}" />
+		<meta property="twitter:url" content="{{ url()->current() }}" />
+		<meta name="twitter:title" content="Meetup @ {{ $meetup->location }} - {{ $group->name }}" />
+		<meta name="twitter:creator" content="{{ str($group->twitter_url)->after('twitter.com/')->prepend('@') }}" />
+		<meta name="description" content="Meetup @ {{ $meetup->location }} on {{ $meetup->range() }}" />
+		<meta property="og:description" content="Meetup @ {{ $meetup->location }} on {{ $meetup->range() }}" />
+		<meta name="twitter:description" content="Meetup @ {{ $meetup->location }} on {{ $meetup->range() }}" />
+		@if(file_exists(storage_path("app/public/og/meetups/{$meetup->getKey()}.png")))
+		<meta property="og:image" content="{{ asset("storage/og/meetups/{$meetup->getKey()}.png") }}" />
+		<meta name="twitter:image" content="{{ asset("storage/og/meetups/{$meetup->getKey()}.png") }}" />
+		@endif
+	</x-slot:og>
+	
 	<h1 class="font-mono font-semibold text-white text-2xl sm:text-4xl md:text-5xl lg:text-6xl">
 		Meetup @ {{ $meetup->location }}
 	</h1>
@@ -24,9 +42,9 @@
 		{{ $meetup }}
 	</div>
 	
-	<form 
-		action="/meetups/{{ $meetup->getKey() }}/rsvps" 
-		method="post" 
+	<form
+		action="/meetups/{{ $meetup->getKey() }}/rsvps"
+		method="post"
 		class="w-full transform -rotate-1 md:ml-8"
 	>
 		@csrf
