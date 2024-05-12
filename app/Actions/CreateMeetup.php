@@ -1,8 +1,7 @@
 <?php
 
-namespace vendor;
+namespace App\Actions;
 
-use App\Actions\GenerateOpenGraphImage;
 use App\Models\Group;
 use App\Models\Meetup;
 use Carbon\CarbonInterface;

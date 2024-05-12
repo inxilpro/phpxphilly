@@ -4,8 +4,6 @@ namespace App\Actions;
 
 use App\Actions\Concerns\FetchesModelsForCommands;
 use App\Models\Meetup;
-use App\Support\FiraCode;
-use App\Support\JetBrainsMono;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Lorisleiva\Actions\Concerns\AsAction;
