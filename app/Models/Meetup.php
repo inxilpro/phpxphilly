@@ -85,6 +85,16 @@ class Meetup extends Model implements Htmlable
 		return "{$start}–{$end}";
 	}
 	
+	protected function openGraphImageFile(): Attribute
+	{
+		return Attribute::get(function() {
+			$filename = "og/meetups/{$this->getKey()}.png";
+			$path = storage_path("app/public/{$filename}");
+			
+			return file_exists($path) ? $path : null;
+		});
+	}
+	
 	protected function openGraphImageUrl(): Attribute
 	{
 		return Attribute::get(function() {

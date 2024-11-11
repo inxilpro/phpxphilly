@@ -5,7 +5,10 @@ namespace App\Actions;
 use App\Actions\Concerns\FetchesModelsForCommands;
 use App\Models\Meetup;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
 use Lorisleiva\Actions\Concerns\AsAction;
+use Revolution\Bluesky\Embed\External;
+use Revolution\Bluesky\Facades\Bluesky;
 use Revolution\Bluesky\RichText\TextBuilder;
 use UnexpectedValueException;
 
@@ -16,6 +19,8 @@ class AnnounceOnBluesky
 	
 	public function handle(Meetup $meetup): string
 	{
+		$bsky = $meetup->group->bsky();
+		
 		$post = TextBuilder::make('📆 ')
 			->link(text: "Meetup @ {$meetup->location}", uri: $meetup->rsvp_url)
 			->newLine()
@@ -30,9 +35,18 @@ class AnnounceOnBluesky
 			->tag(text: '#Laravel', tag: 'Laravel')
 			->toPost();
 		
+		if ($meetup->open_graph_image_file) {
+			$post->embed(External::create(
+				title: "Meetup @ {$meetup->location}",
+				description: "Meetup @ {$meetup->location} {$meetup->range()}",
+				uri: $meetup->rsvp_url,
+				thumb: fn() => $bsky->uploadBlob(Storage::get($meetup->open_graph_image_file)),
+			));
+		}
+		
 		$post->createdAt(now()->toRfc3339String());
 		
-		$response = $meetup->group->bsky()->post($post);
+		$response = $bsky->post($post);
 		$uri = str($response->json('uri'));
 		
 		[$did, $collection, $rkey] = $uri->after('at://')->explode('/');
