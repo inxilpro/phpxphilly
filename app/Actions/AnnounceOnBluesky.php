@@ -7,6 +7,7 @@ use App\Models\Meetup;
 use Illuminate\Console\Command;
 use Lorisleiva\Actions\Concerns\AsAction;
 use Revolution\Bluesky\RichText\TextBuilder;
+use UnexpectedValueException;
 
 class AnnounceOnBluesky
 {
@@ -17,6 +18,7 @@ class AnnounceOnBluesky
 	{
 		$post = TextBuilder::make('📆 ')
 			->link(text: "Meetup @ {$meetup->location}", uri: $meetup->rsvp_url)
+			->newLine()
 			->newLine()
 			->text($meetup->range())
 			->newLine()
@@ -31,8 +33,15 @@ class AnnounceOnBluesky
 		$post->createdAt(now()->toRfc3339String());
 		
 		$response = $meetup->group->bsky()->post($post);
+		$uri = str($response->json('uri'));
 		
-		return $response->body();
+		[$did, $collection, $rkey] = $uri->after('at://')->explode('/');
+		
+		if ('app.bsky.feed.post' !== $collection) {
+			throw new UnexpectedValueException("Did not get a post: {$response->body()}");
+		}
+		
+		return "https://bsky.app/profile/{$did}/post/{$rkey}";
 	}
 	
 	public function getCommandSignature(): string
