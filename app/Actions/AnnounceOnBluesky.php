@@ -28,6 +28,8 @@ class AnnounceOnBluesky
 			->tag(text: '#Laravel', tag: 'Laravel')
 			->toPost();
 		
+		$post->createdAt(now()->toRfc3339String());
+		
 		$response = $meetup->group->bsky()->post($post);
 		
 		return $response->body();
