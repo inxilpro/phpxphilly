@@ -48,7 +48,7 @@ class AnnounceOnBluesky
 					link: $meetup->open_graph_image_url,
 					mimeType: 'image/png',
 					size: filesize($meetup->open_graph_image_file),
-				),
+				)->toArray(),
 			));
 		}
 		
