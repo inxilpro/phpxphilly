@@ -37,10 +37,7 @@ class AnnounceOnBluesky
 			->toPost();
 		
 		if ($meetup->open_graph_image_file) {
-			$thumbnail = $bsky->uploadBlob(
-				data: Storage::get($meetup->open_graph_image_file),
-				type: Storage::mimeType($meetup->open_graph_image_file), 
-			);
+			$thumbnail = $bsky->uploadBlob(Storage::get($meetup->open_graph_image_file));
 			
 			dump($thumbnail->json(), $meetup->open_graph_image_file);
 			
