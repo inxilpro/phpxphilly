@@ -10,6 +10,7 @@ use Lorisleiva\Actions\Concerns\AsAction;
 use Revolution\Bluesky\Embed\External;
 use Revolution\Bluesky\RichText\TextBuilder;
 use Revolution\Bluesky\Types\Blob;
+use Throwable;
 use UnexpectedValueException;
 
 class AnnounceOnBluesky
@@ -57,7 +58,11 @@ class AnnounceOnBluesky
 		$response = $meetup->group->bsky()->post($post);
 		$uri = str($response->json('uri'));
 		
-		[$did, $collection, $rkey] = $uri->after('at://')->explode('/');
+		try {
+			[$did, $collection, $rkey] = $uri->after('at://')->explode('/');
+		} catch (Throwable) {
+			throw new UnexpectedValueException("Did not get a valid post: {$response->body()}");
+		}
 		
 		if ('app.bsky.feed.post' !== $collection) {
 			throw new UnexpectedValueException("Did not get a post: {$response->body()}");
