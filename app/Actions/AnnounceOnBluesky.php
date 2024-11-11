@@ -42,7 +42,7 @@ class AnnounceOnBluesky
 				type: Storage::mimeType($meetup->open_graph_image_file), 
 			);
 			
-			dump($thumbnail->getBody());
+			dump($thumbnail->json(), $meetup->open_graph_image_file);
 			
 			$post->embed(External::create(
 				title: $meetup->group->name,
