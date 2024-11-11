@@ -8,7 +8,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Lorisleiva\Actions\Concerns\AsAction;
 use Revolution\Bluesky\Embed\External;
-use Revolution\Bluesky\Facades\Bluesky;
 use Revolution\Bluesky\RichText\TextBuilder;
 use UnexpectedValueException;
 
@@ -40,7 +39,7 @@ class AnnounceOnBluesky
 				title: "Meetup @ {$meetup->location}",
 				description: "Meetup @ {$meetup->location} {$meetup->range()}",
 				uri: $meetup->rsvp_url,
-				thumb: fn() => $bsky->uploadBlob(Storage::get($meetup->open_graph_image_file)),
+				thumb: fn() => $bsky->uploadBlob(Storage::get($meetup->open_graph_image_file))->json('blob'),
 			));
 		}
 		
