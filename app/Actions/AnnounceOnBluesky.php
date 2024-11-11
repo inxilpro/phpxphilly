@@ -18,8 +18,6 @@ class AnnounceOnBluesky
 	
 	public function handle(Meetup $meetup): string
 	{
-		$bsky = $meetup->group->bsky();
-		
 		$post = TextBuilder::make('📆 ')
 			->link(text: "Meetup @ {$meetup->location}", uri: $meetup->rsvp_url)
 			->newLine()
@@ -35,17 +33,21 @@ class AnnounceOnBluesky
 			->toPost();
 		
 		if ($meetup->open_graph_image_file) {
+			$thumbnail = $meetup->group->bsky()->uploadBlob(Storage::get($meetup->open_graph_image_file));
+			
+			dump($thumbnail->body());
+			
 			$post->embed(External::create(
 				title: "Meetup @ {$meetup->location}",
-				description: "Meetup @ {$meetup->location} {$meetup->range()}",
+				description: "Meetup @ {$meetup->location} on {$meetup->range()}",
 				uri: $meetup->rsvp_url,
-				thumb: fn() => $bsky->uploadBlob(Storage::get($meetup->open_graph_image_file))->json('blob'),
+				thumb: $thumbnail->json('blob'),
 			));
 		}
 		
 		$post->createdAt(now()->toRfc3339String());
 		
-		$response = $bsky->post($post);
+		$response = $meetup->group->bsky()->post($post);
 		$uri = str($response->json('uri'));
 		
 		[$did, $collection, $rkey] = $uri->after('at://')->explode('/');
