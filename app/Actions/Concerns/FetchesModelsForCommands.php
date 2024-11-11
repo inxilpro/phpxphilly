@@ -20,11 +20,14 @@ trait FetchesModelsForCommands
 		return Group::find($id);
 	}
 	
-	protected function getMeetupFromCommand(Command $command, ?Group $group = null): Meetup
+	protected function getMeetupFromCommand(Command $command, ?Group $group = null, bool $upcoming = false): Meetup
 	{
 		if (! $id = $command->argument('meetup')) {
 			$group ??= Group::find(select('Which group?', Group::pluck('name', 'id')));
-			$id = select('Which meetup?', $group->meetups()->pluck('location', 'id'));
+			
+			$id = select('Which meetup?', $group->meetups()
+				->when($upcoming, fn($query) => $query->where('starts_at', '>', now()))
+				->pluck('location', 'id'));
 		}
 		
 		return $group

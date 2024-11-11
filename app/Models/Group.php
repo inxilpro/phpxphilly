@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Cache;
+use Revolution\Bluesky\Contracts\Factory;
+use Revolution\Bluesky\Facades\Bluesky;
 use Spatie\MailcoachSdk\Mailcoach;
 
 class Group extends Model
@@ -23,6 +25,7 @@ class Group extends Model
 	{
 		return [
 			'mailcoach_token' => 'encrypted',
+			'bsky_app_password' => 'encrypted',
 		];
 	}
 	
@@ -45,11 +48,20 @@ class Group extends Model
 	
 	public function mailcoach(): ?Mailcoach
 	{
-		if (!isset($this->mailcoach_token, $this->mailcoach_list, $this->mailcoach_endpoint)) {
+		if (! isset($this->mailcoach_token, $this->mailcoach_list, $this->mailcoach_endpoint)) {
 			return null;
 		}
 		
 		return new Mailcoach($this->mailcoach_token, $this->mailcoach_endpoint);
+	}
+	
+	public function bsky(): Factory|Bluesky|null
+	{
+		if (! isset($this->bsky_did, $this->bsky_app_password)) {
+			return null;
+		}
+		
+		return Bluesky::login($this->bsky_did, $this->bsky_app_password);
 	}
 	
 	public function url(string $path, array $parameters = [], bool $secure = true): string

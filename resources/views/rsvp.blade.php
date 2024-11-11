@@ -12,9 +12,9 @@
 		<meta name="description" content="Meetup @ {{ $meetup->location }} on {{ $meetup->range() }}" />
 		<meta property="og:description" content="Meetup @ {{ $meetup->location }} on {{ $meetup->range() }}" />
 		<meta name="twitter:description" content="Meetup @ {{ $meetup->location }} on {{ $meetup->range() }}" />
-		@if(file_exists(storage_path("app/public/og/meetups/{$meetup->getKey()}.png")))
-		<meta property="og:image" content="{{ asset("storage/og/meetups/{$meetup->getKey()}.png") }}?t={{ $meetup->updated_at->unix() }}" />
-		<meta name="twitter:image" content="{{ asset("storage/og/meetups/{$meetup->getKey()}.png") }}?t={{ $meetup->updated_at->unix() }}" />
+		@if($meetup->open_graph_image_url)
+		<meta property="og:image" content="{{ $meetup->open_graph_image_url }}" />
+		<meta name="twitter:image" content="{{ $meetup->open_graph_image_url }}" />
 		@endif
 	</x-slot:og>
 	
