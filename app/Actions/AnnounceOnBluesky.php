@@ -35,12 +35,12 @@ class AnnounceOnBluesky
 		if ($meetup->open_graph_image_file) {
 			$thumbnail = $meetup->group->bsky()->uploadBlob(Storage::get($meetup->open_graph_image_file));
 			
-			dump($thumbnail->body());
+			// dump($thumbnail->body());
 			
 			$post->embed(External::create(
 				title: "Meetup @ {$meetup->location}",
 				description: "Meetup @ {$meetup->location} on {$meetup->range()}",
-				uri: $meetup->rsvp_url,
+				uri: $meetup->open_graph_image_url,
 				thumb: $thumbnail->json('blob'),
 			));
 		}
