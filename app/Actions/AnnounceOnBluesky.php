@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Lorisleiva\Actions\Concerns\AsAction;
 use Revolution\Bluesky\Embed\External;
 use Revolution\Bluesky\RichText\TextBuilder;
+use Revolution\Bluesky\Types\Blob;
 use UnexpectedValueException;
 
 class AnnounceOnBluesky
@@ -33,15 +34,21 @@ class AnnounceOnBluesky
 			->toPost();
 		
 		if ($meetup->open_graph_image_file) {
-			$thumbnail = $meetup->group->bsky()->uploadBlob(Storage::get($meetup->open_graph_image_file));
-			
-			// dump($thumbnail->body());
+			// $thumbnail = $meetup->group->bsky()->uploadBlob(
+			// 	data: Storage::get($meetup->open_graph_image_file),
+			// 	type: Storage::mimeType($meetup->open_graph_image_file), 
+			// );
 			
 			$post->embed(External::create(
-				title: "Meetup @ {$meetup->location}",
+				title: $meetup->group->name,
 				description: "Meetup @ {$meetup->location} on {$meetup->range()}",
-				uri: $meetup->open_graph_image_url,
-				thumb: $thumbnail->json('blob'),
+				uri: $meetup->rsvp_url,
+				// thumb: $thumbnail->json('blob'),
+				thumb: Blob::make(
+					link: $meetup->open_graph_image_url,
+					mimeType: 'image/png',
+					size: filesize($meetup->open_graph_image_file),
+				),
 			));
 		}
 		
