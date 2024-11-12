@@ -46,6 +46,11 @@ class Group extends Model
 		return $container->get($id);
 	}
 	
+	public function label(): string
+	{
+		return $this->region ?? str($this->name)->afterLast('×')->trim()->toString();
+	}
+	
 	public function mailcoach(): ?Mailcoach
 	{
 		if (! isset($this->mailcoach_token, $this->mailcoach_list, $this->mailcoach_endpoint)) {

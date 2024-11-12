@@ -33,7 +33,10 @@ class AppServiceProvider extends ServiceProvider
 	protected function sharePhpxNetwork()
 	{
 		$network = Cache::remember('phpx-network', now()->addWeek(), function() {
-			return Group::pluck('name', 'domain')->toArray();
+			return Group::query()
+				->select('domain', 'name', 'region')
+				->chunkMap(fn(Group $group) => $group->label())
+				->toArray();
 		});
 		
 		View::share('phpx_network', $network);
