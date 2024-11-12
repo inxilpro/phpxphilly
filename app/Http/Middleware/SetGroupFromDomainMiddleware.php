@@ -31,13 +31,7 @@ class SetGroupFromDomainMiddleware
 		
 		config(['app.timezone' => $group->timezone]);
 		
-		$response = $next($request);
-		
-		if ($response instanceof Response && $response->isRedirect()) {
-			Log::debug(json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), JSON_PRETTY_PRINT));
-		}
-		
-		return $response;
+		return $next($request);
 	}
 	
 	protected function group(Request $request): ?Group
