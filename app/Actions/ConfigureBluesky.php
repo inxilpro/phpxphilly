@@ -5,11 +5,10 @@ namespace App\Actions;
 use App\Actions\Concerns\FetchesModelsForCommands;
 use App\Models\Group;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 use Lorisleiva\Actions\Concerns\AsAction;
 use Revolution\Bluesky\Facades\Bluesky;
-use Spatie\MailcoachSdk\Mailcoach;
 use Throwable;
-use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
 
 class ConfigureBluesky
@@ -17,12 +16,15 @@ class ConfigureBluesky
 	use AsAction;
 	use FetchesModelsForCommands;
 	
-	public function handle(Group $group, string $did, string $app_password)
+	public function handle(Group $group, string $url, string $did, string $app_password)
 	{
 		$group->update([
+			'bsky_url' => $url,
 			'bsky_did' => $did,
 			'bsky_app_password' => $app_password,
 		]);
+		
+		Cache::clear();
 	}
 	
 	public function getCommandSignature(): string
@@ -34,6 +36,7 @@ class ConfigureBluesky
 	{
 		$group = $this->getGroupFromCommand($command);
 		
+		$url = text('What is the Bluesky URL?', default: (string) $group->bsky_url, required: true);
 		$did = text('What is the Bluesky DID?', default: (string) $group->bsky_did, required: true);
 		$app_password = text('What is the Bluesky app password?', default: (string) $group->bsky_app_password, required: true);
 		
@@ -45,7 +48,7 @@ class ConfigureBluesky
 			return 1;
 		}
 		
-		$this->handle($group, $did, $app_password);
+		$this->handle($group, $url, $did, $app_password);
 		
 		$command->info('Bluesky configured!');
 		
