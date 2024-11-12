@@ -6,6 +6,7 @@ use App\Models\Group;
 use Closure;
 use Illuminate\Container\Container;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Context;
@@ -19,12 +20,8 @@ class SetGroupFromDomainMiddleware
 	public function handle(Request $request, Closure $next)
 	{
 		if (! $group = $this->group($request)) {
-			Log::warning("Group not found for host '{$request->host()}'");
-			
 			throw new NotFoundHttpException();
 		}
-		
-		Log::info("Group {$group->getKey()} loaded for host '{$request->host()}'");
 		
 		Container::getInstance()->instance(Group::class, $group);
 		Container::getInstance()->instance("group:{$group->domain}", $group);
@@ -34,7 +31,13 @@ class SetGroupFromDomainMiddleware
 		
 		config(['app.timezone' => $group->timezone]);
 		
-		return $next($request);
+		$response = $next($request);
+		
+		if ($response instanceof Response && $response->isRedirect()) {
+			Log::debug(json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), JSON_PRETTY_PRINT));
+		}
+		
+		return $response;
 	}
 	
 	protected function group(Request $request): ?Group
