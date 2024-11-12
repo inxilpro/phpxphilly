@@ -57,7 +57,9 @@
 					href="{{ $domain === $group->domain ? url('/') : "https://{$domain}/" }}"
 					class="border-t-2 border-white first-of-type:border-t-0 flex items-center justify-end gap-2 w-full px-4 py-2.5 text-right text-sm hover:bg-white hover:text-black"
 				>
-					{{ str($group_name)->after('×') }}
+					<span class="whitespace-nowrap">
+						{{ str($group_name)->after('×') }}
+					</span>
 					@if($domain === $group->domain)
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-5 h-5 fill-current">
 							<path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
