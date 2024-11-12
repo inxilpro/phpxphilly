@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Context;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\View;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -17,8 +19,12 @@ class SetGroupFromDomainMiddleware
 	public function handle(Request $request, Closure $next)
 	{
 		if (! $group = $this->group($request)) {
+			Log::warning("Group not found for host '{$request->host()}'");
+			
 			throw new NotFoundHttpException();
 		}
+		
+		Log::info("Group {$group->getKey()} loaded for host '{$request->host()}'");
 		
 		Container::getInstance()->instance(Group::class, $group);
 		Container::getInstance()->instance("group:{$group->domain}", $group);

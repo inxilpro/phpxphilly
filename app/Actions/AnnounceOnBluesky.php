@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Storage;
 use Lorisleiva\Actions\Concerns\AsAction;
 use Revolution\Bluesky\Embed\External;
 use Revolution\Bluesky\RichText\TextBuilder;
-use Revolution\Bluesky\Types\Blob;
 use Throwable;
 use UnexpectedValueException;
 
