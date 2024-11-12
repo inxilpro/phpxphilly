@@ -35,7 +35,8 @@ class AppServiceProvider extends ServiceProvider
 		$network = Cache::remember('phpx-network', now()->addWeek(), function() {
 			return Group::query()
 				->select('domain', 'name', 'region')
-				->chunkMap(fn(Group $group) => $group->label())
+				->get()
+				->mapWithKeys(fn(Group $group) => [$group->domain => $group->label()])
 				->toArray();
 		});
 		
