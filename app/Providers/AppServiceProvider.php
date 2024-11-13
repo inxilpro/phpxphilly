@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Lorisleiva\Actions\Facades\Actions;
+use Throwable;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -42,11 +43,15 @@ class AppServiceProvider extends ServiceProvider
 		});
 		
 		$external = Cache::remember('phpx-network-external', now()->addWeek(), function() {
-			return ExternalGroup::query()
-				->select('domain', 'name', 'region')
-				->get()
-				->mapWithKeys(fn(ExternalGroup $g) => [$g->domain => $g->label()])
-				->toArray();
+			try {
+				return ExternalGroup::query()
+					->select('domain', 'name', 'region')
+					->get()
+					->mapWithKeys(fn(ExternalGroup $g) => [$g->domain => $g->label()])
+					->toArray();
+			} catch (Throwable) {
+				return [];
+			}
 		});
 		
 		View::share('phpx_network', $network);
