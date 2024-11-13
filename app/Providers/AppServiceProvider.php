@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\ExternalGroup;
 use App\Models\Group;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -40,6 +41,15 @@ class AppServiceProvider extends ServiceProvider
 				->toArray();
 		});
 		
+		$external = Cache::remember('phpx-network-external', now()->addWeek(), function() {
+			return ExternalGroup::query()
+				->select('domain', 'name', 'region')
+				->get()
+				->mapWithKeys(fn(ExternalGroup $g) => [$g->domain => $g->label()])
+				->toArray();
+		});
+		
 		View::share('phpx_network', $network);
+		View::share('phpx_external', $external);
 	}
 }

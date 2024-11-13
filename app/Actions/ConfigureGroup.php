@@ -47,11 +47,15 @@ class ConfigureGroup
 	
 	public function getCommandSignature(): string
 	{
-		return 'group:configure';
+		return 'group:configure {--external}';
 	}
 	
 	public function asCommand(Command $command): int
 	{
+		if ($command->option('external')) {
+			return ConfigureExternalGroup::make()->asCommand($command);
+		}
+		
 		$domain = strtolower(text('What is the domain?', default: 'phpx', required: true));
 		
 		$existing = Group::where('domain', $domain)->firstOrNew(values: [
